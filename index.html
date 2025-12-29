@@ -282,7 +282,8 @@
 
         const CONFIG = {
             center: [23.8, 121], zoom: 7, 
-            userLoc: { lat: 22.7253, lon: 120.3096, name: "預設: 楠梓" },
+            // 修改預設位置為台北 101
+            userLoc: { lat: 25.0336, lon: 121.5644, name: "預設: 台北101" },
             reportLimit: 100 
         };
 
@@ -319,6 +320,9 @@
             
             startNormalClock();
             updateUserMarker();
+            
+            // 啟動自動定位
+            startAutoLocation();
             
             await loadLocationData();
             await loadStations();
@@ -408,6 +412,30 @@
                     map.removeLayer(layers.rts_labels);
                 }
             }
+        }
+
+        // 新增：自動定位函式
+        function startAutoLocation() {
+            if (!navigator.geolocation) return;
+            // watchPosition 會持續監聽位置，直到成功或位置變更
+            navigator.geolocation.watchPosition(
+                (pos) => {
+                    CONFIG.userLoc.lat = pos.coords.latitude;
+                    CONFIG.userLoc.lon = pos.coords.longitude;
+                    CONFIG.userLoc.name = "您的位置";
+                    updateUserMarker();
+                    // 如果正在模擬中，更新計算
+                    if (simMode && activeReportId) {
+                        const currentId = activeReportId;
+                        stopSimulation();
+                        startSimulation(currentId);
+                    }
+                },
+                (err) => { 
+                    console.log("定位獲取中或權限未允許: " + err.message);
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            );
         }
 
         function getUserLocation() {
