@@ -282,7 +282,7 @@
 
         const CONFIG = {
             center: [23.8, 121], zoom: 7, 
-            // 修改預設位置為台北 101
+            // 預設位置為台北 101
             userLoc: { lat: 25.0336, lon: 121.5644, name: "預設: 台北101" },
             reportLimit: 100 
         };
@@ -414,22 +414,16 @@
             }
         }
 
-        // 新增：自動定位函式
+        // 自動定位函式 (修正版：不中斷模擬)
         function startAutoLocation() {
             if (!navigator.geolocation) return;
-            // watchPosition 會持續監聽位置，直到成功或位置變更
+            // watchPosition 會持續監聽位置
             navigator.geolocation.watchPosition(
                 (pos) => {
                     CONFIG.userLoc.lat = pos.coords.latitude;
                     CONFIG.userLoc.lon = pos.coords.longitude;
                     CONFIG.userLoc.name = "您的位置";
-                    updateUserMarker();
-                    // 如果正在模擬中，更新計算
-                    if (simMode && activeReportId) {
-                        const currentId = activeReportId;
-                        stopSimulation();
-                        startSimulation(currentId);
-                    }
+                    updateUserMarker(); // 只更新地圖上的藍點，不重啟模擬
                 },
                 (err) => { 
                     console.log("定位獲取中或權限未允許: " + err.message);
@@ -438,6 +432,7 @@
             );
         }
 
+        // 手動定位函式 (修正版：不中斷模擬)
         function getUserLocation() {
             if (!navigator.geolocation) { alert("瀏覽器不支援定位"); return; }
             navigator.geolocation.getCurrentPosition(
@@ -446,11 +441,6 @@
                     CONFIG.userLoc.lon = pos.coords.longitude;
                     CONFIG.userLoc.name = "您的位置";
                     updateUserMarker();
-                    if (simMode && activeReportId) {
-                        const currentId = activeReportId;
-                        stopSimulation();
-                        startSimulation(currentId);
-                    }
                 },
                 (err) => { console.error(err); alert("無法取得定位，將使用預設位置"); }
             );
