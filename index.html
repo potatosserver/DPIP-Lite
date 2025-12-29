@@ -63,9 +63,8 @@
         /* COMPONENTS */
         .m3-card { background: var(--md-sys-color-surface-container); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-2); display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; }
         
-        /* 修正：監測面板固定高度與佈局 */
         .monitor-panel { 
-            min-height: 230px; /* 固定最小高度，確保無地震時高度一致 */
+            min-height: 230px; 
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -74,7 +73,6 @@
 
         .panel-header { font-size: 0.85rem; font-weight: 700; color: var(--md-sys-color-primary); text-transform: uppercase; letter-spacing: 0.5px; }
         
-        /* 修正：讓 idle 狀態填滿空間並置中 */
         #monitor-idle { 
             display: flex; 
             flex-direction: column; 
@@ -82,17 +80,16 @@
             justify-content: center; 
             gap: 8px; 
             color: var(--md-sys-color-outline); 
-            flex: 1; /* 填滿剩餘空間 */
+            flex: 1; 
         }
         #monitor-idle span.material-symbols-rounded { font-size: 48px; opacity: 0.5; }
         #monitor-idle div { font-weight: 500; font-size: 1rem; }
 
-        /* 修正：讓 active 狀態填滿空間 */
         #monitor-active { 
             display: none; 
             flex-direction: column; 
             gap: 12px; 
-            flex: 1; /* 填滿剩餘空間 */
+            flex: 1; 
             justify-content: center;
         }
 
@@ -108,7 +105,6 @@
         #quake-list { flex: 1; overflow-y: auto; }
         
         .quake-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.05); transition: background-color 0.2s; }
-        /* 修正：Active 樣式更明顯 */
         .quake-item.active { background: #d0ebff; border-left: 4px solid var(--md-sys-color-primary); padding-left: 12px; }
         .mag-badge { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1rem; color: #1f1f1f; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
         .quake-info h4 { margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--md-sys-color-on-surface); line-height: 1.4; }
@@ -162,7 +158,7 @@
             
             #sidebar-content { order: 4; width: 100%; flex: 1; min-height: 0; padding: 0 16px 16px 16px; overflow-y: auto; }
             .m3-card { box-shadow: none; border: none; padding: 0; background: transparent; }
-            .monitor-panel { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px; margin-bottom: 0; } /* 手機版也可保持固定高度 */
+            .monitor-panel { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px; margin-bottom: 0; }
             .list-panel { overflow: visible; }
             #quake-list { overflow: visible; }
             .list-header { display: none; }
@@ -312,7 +308,6 @@
             reportLimit: 100 
         };
 
-        const PROXIES = [ "https://api.allorigins.win/raw?url=", "https://corsproxy.io/?", "https://thingproxy.freeboard.io/fetch/" ];
         const Routes = {
             station: "https://api-1.exptech.dev/api/v1/trem/station",
             rts: "https://lb-1.exptech.dev/api/v2/trem/rts",
@@ -330,10 +325,12 @@
         let LOCATION_DATA = null;
         let rtsMarkerCache = {}; 
         
-        async function fetchJson(url, useProxy = true) {
-            if (!useProxy) { try { const res = await fetch(url); if (res.ok) return await res.json(); } catch(e) {} }
-            if (useProxy) {
-                for (const proxy of PROXIES) { try { const res = await fetch(proxy + encodeURIComponent(url)); if (res.ok) return await res.json(); } catch (e) {} }
+        async function fetchJson(url) {
+            try { 
+                const res = await fetch(url); 
+                if (res.ok) return await res.json(); 
+            } catch (e) {
+                console.error("Fetch error:", e);
             }
             return { error: true };
         }
@@ -357,7 +354,7 @@
         }
 
         async function loadLocationData() {
-            const data = await fetchJson(Routes.locationData, false);
+            const data = await fetchJson(Routes.locationData);
             if (!data.error) {
                 LOCATION_DATA = data;
                 console.log("Location data loaded.");
@@ -474,7 +471,7 @@
         }
 
         async function loadReports() {
-            const list = await fetchJson(`${Routes.reportList}&_t=${Date.now()}`, false);
+            const list = await fetchJson(`${Routes.reportList}&_t=${Date.now()}`);
             if (!Array.isArray(list)) { document.getElementById('quake-list').innerHTML = "無法載入"; return; }
             const container = document.getElementById('quake-list');
             container.innerHTML = '';
@@ -493,17 +490,11 @@
             });
         }
 
-        // 修改後的 renderActiveReport，解決顏色顯示問題
         async function renderActiveReport(id, domItem) {
             if (activeReportId === id) { stopSimulation(); return; }
             
-            // 1. 先停止並清除當前狀態（包含所有的 .active 樣式）
             stopSimulation(); 
-            
-            // 2. 重新加上目前點擊項目的樣式
             if(domItem) domItem.classList.add('active');
-            
-            // 3. 開始模擬
             startSimulation(id);
         }
 
@@ -533,7 +524,7 @@
             rtsCheckbox.checked = false;
             rtsCheckbox.disabled = true;
 
-            const detail = await fetchJson(Routes.reportDetail(id), false);
+            const detail = await fetchJson(Routes.reportDetail(id));
             if(detail.error) { stopSimulation(); return; }
 
             simStartTime = detail.time;
@@ -654,7 +645,6 @@
             document.getElementById('clock-offset').innerText = ""; 
             document.getElementById('clock-time').textContent = new Date().toLocaleTimeString('zh-TW', {hour12:false}); 
             
-            // 清除所有的 active 樣式
             document.querySelectorAll('.quake-item').forEach(el => el.classList.remove('active'));
             
             layers.activeReport.clearLayers();
@@ -681,7 +671,7 @@
         async function loadRts() {
             if (simMode || isMapInteracting || !isRtsEnabled) return; 
 
-            const data = await fetchJson(`${Routes.rts}?_t=${Date.now()}`, false);
+            const data = await fetchJson(`${Routes.rts}?_t=${Date.now()}`);
             if (!data || data.error) return;
             if (isMapInteracting) return; 
 
@@ -795,7 +785,7 @@
 
         async function pollEew() {
             if(simMode) return; 
-            const data = await fetchJson(`${Routes.eew}?_t=${Date.now()}`, false);
+            const data = await fetchJson(`${Routes.eew}?_t=${Date.now()}`);
             const banner = document.getElementById('eew-banner');
             const bannerText = document.getElementById('banner-text');
             
@@ -816,7 +806,7 @@
             }
         }
 
-        async function loadStations() { const data = await fetchJson(Routes.station, false); if (!data.error) stationsCache = data; }
+        async function loadStations() { const data = await fetchJson(Routes.station); if (!data.error) stationsCache = data; }
 
         function getMagColor(mag) { return mag >= 6 ? '#b3261e' : (mag >= 4 ? '#f57c00' : '#2e7d32'); }
         function getEstimatedRadius(mag) { if (mag < 4) return 20000; if (mag < 5) return 60000; if (mag < 6) return 150000; return 300000; }
