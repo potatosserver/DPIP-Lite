@@ -31,92 +31,37 @@
             background: var(--md-sys-color-surface); 
             color: var(--md-sys-color-on-surface); 
             font-family: 'Google Sans', 'Roboto', sans-serif; 
-            height: 100dvh; /* Dynamic Viewport Height for Mobile */
+            height: 100dvh; 
             width: 100vw; 
             overflow: hidden; 
             display: flex;
         }
 
-        /* --- LAYOUT CONTAINER --- */
-        #app-layout {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            height: 100%;
-            padding: 16px;
-            gap: 16px;
-        }
+        #app-layout { display: flex; flex-direction: row; width: 100%; height: 100%; padding: 16px; gap: 16px; }
 
-        /* --- LEFT COLUMN WRAPPER (Desktop) --- */
-        #left-col-wrapper {
-            width: 380px; 
-            min-width: 320px;
-            height: 100%;
-            display: flex; 
-            flex-direction: column;
-            gap: 12px;
-            z-index: 20;
-        }
+        /* LEFT COLUMN */
+        #left-col-wrapper { width: 380px; min-width: 320px; height: 100%; display: flex; flex-direction: column; gap: 12px; z-index: 20; }
 
-        /* --- HEADER --- */
-        .header-section { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 4px; flex-shrink: 0; 
-            background: var(--md-sys-color-surface); /* Solid background for mobile sticky look */
-        }
+        /* HEADER */
+        .header-section { display: flex; justify-content: space-between; align-items: center; padding: 4px; flex-shrink: 0; background: var(--md-sys-color-surface); }
         .app-branding { display: flex; align-items: center; gap: 12px; }
         .app-title { font-weight: 700; font-size: 1.25rem; color: var(--md-sys-color-primary); letter-spacing: -0.5px; }
-        
         .header-actions { display: flex; align-items: center; gap: 8px; }
-        .time-display { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.95rem; font-weight: 700; 
-            color: var(--md-sys-color-on-surface-variant); 
-            display: flex; gap: 8px;
-            background: var(--md-sys-color-surface-container-high);
-            padding: 6px 12px; border-radius: 12px;
-        }
+        .time-display { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--md-sys-color-on-surface-variant); display: flex; gap: 8px; background: var(--md-sys-color-surface-container-high); padding: 6px 12px; border-radius: 12px; }
         .sim-active .time-display { color: #683D00; background: #FFDCBE; } 
         .icon-btn { background: transparent; border: none; color: var(--md-sys-color-on-surface-variant); cursor: pointer; width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .icon-btn:hover { background: rgba(0,0,0,0.05); color: var(--md-sys-color-primary); }
 
-        /* --- SIDEBAR CONTENT (Monitor + List) --- */
-        #sidebar-content {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            flex: 1; /* Take remaining vertical space in desktop col */
-            min-height: 0; /* Allow shrink */
-            overflow: hidden; /* Internal scrolling */
-        }
+        /* CONTENT */
+        #sidebar-content { display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; overflow: hidden; }
 
-        /* --- MAP --- */
-        #map-container {
-            flex: 1; 
-            height: 100%;
-            position: relative;
-            background: #E0E4E7;
-            border-radius: 24px;
-            overflow: hidden; 
-            box-shadow: var(--shadow-2);
-            z-index: 1;
-        }
+        /* MAP */
+        #map-container { flex: 1; height: 100%; position: relative; background: #E0E4E7; border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-2); z-index: 1; }
         #map { height: 100%; width: 100%; }
-
-        /* Mobile Resizer (Hidden Desktop) */
         #mobile-resizer { display: none; }
 
-        /* --- COMPONENTS --- */
-        .m3-card {
-            background: var(--md-sys-color-surface-container);
-            border-radius: 16px; padding: 16px;
-            box-shadow: var(--shadow-2);
-            display: flex; flex-direction: column; gap: 12px;
-            border: 1px solid rgba(0,0,0,0.08);
-            flex-shrink: 0;
-        }
-
-        /* Monitor Panel */
+        /* COMPONENTS */
+        .m3-card { background: var(--md-sys-color-surface-container); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-2); display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; }
         .monitor-panel { min-height: 160px; justify-content: center; flex-shrink: 0; }
         .panel-header { font-size: 0.85rem; font-weight: 700; color: var(--md-sys-color-primary); text-transform: uppercase; letter-spacing: 0.5px; }
         
@@ -132,19 +77,8 @@
         .stat-unit { font-size: 0.8rem; color: var(--md-sys-color-on-surface-variant); margin-left: 4px; }
         .value-group { display: flex; align-items: baseline; }
 
-        /* List Panel */
-        .list-panel { 
-            flex: 1; min-height: 0; padding: 0; 
-            display: flex; flex-direction: column; overflow: hidden; 
-        }
-        .list-header { 
-            padding: 16px; 
-            border-bottom: 1px solid rgba(0,0,0,0.08); 
-            font-weight: 700; color: var(--md-sys-color-outline); 
-            font-size: 0.8rem; text-transform: uppercase; 
-            background: var(--md-sys-color-surface-container); 
-            flex-shrink: 0;
-        }
+        .list-panel { flex: 1; min-height: 0; padding: 0; display: flex; flex-direction: column; overflow: hidden; }
+        .list-header { padding: 16px; border-bottom: 1px solid rgba(0,0,0,0.08); font-weight: 700; color: var(--md-sys-color-outline); font-size: 0.8rem; text-transform: uppercase; background: var(--md-sys-color-surface-container); flex-shrink: 0; }
         #quake-list { flex: 1; overflow-y: auto; }
         
         .quake-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.05); }
@@ -153,15 +87,22 @@
         .quake-info h4 { margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--md-sys-color-on-surface); line-height: 1.4; }
         .quake-info p { margin: 0; font-size: 0.8rem; color: var(--md-sys-color-on-surface-variant); }
 
-        /* Toggle */
+        /* Toggle & Switch */
         .layer-control { padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
         .layer-label { font-size: 0.9rem; display: flex; align-items: center; gap: 8px; color: var(--md-sys-color-on-surface); font-weight: 500; }
+        
         .m3-switch { position: relative; width: 40px; height: 20px; }
         .m3-switch input { opacity: 0; width: 0; height: 0; }
         .m3-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--md-sys-color-outline); border-radius: 24px; transition: .3s; }
         .m3-slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .3s; }
+        
         input:checked + .m3-slider { background-color: var(--md-sys-color-primary); }
         input:checked + .m3-slider:before { transform: translateX(20px); }
+        
+        /* Disabled Switch Style */
+        input:disabled + .m3-slider { background-color: #E0E0E0; cursor: not-allowed; border: 1px solid #ccc; }
+        input:disabled + .m3-slider:before { background-color: #BDBDBD; }
+        input:checked:disabled + .m3-slider { background-color: #CFD8DC; }
 
         /* Markers & Banner */
         .user-dot-container { width: 20px; height: 20px; position: relative; }
@@ -181,54 +122,18 @@
 
         .banner { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); padding: 12px 24px; border-radius: 50px; font-weight: 500; font-size: 1rem; box-shadow: var(--shadow-2); display: none; z-index: 2000; text-align: center; align-items: center; gap: 8px; background: var(--md-sys-color-error); color: white; white-space: nowrap; }
 
-        /* --- MOBILE LAYOUT --- */
         @media (max-width: 900px) {
             #app-layout { flex-direction: column; padding: 0; gap: 0; }
-
-            /* Remove desktop wrapper box, let children participate in flex column */
             #left-col-wrapper { display: contents; }
-
-            /* 1. Header (Top Fixed) */
-            .header-section {
-                order: 1;
-                width: 100%; height: 56px;
-                border-bottom: 1px solid rgba(0,0,0,0.05);
-                z-index: 100;
-                padding: 0 16px;
-            }
-
-            /* 2. Map (Middle) */
-            #map-container {
-                order: 2;
-                width: 100%;
-                height: 40%; /* Initial Mobile Map Height */
-                flex: none;
-                border-radius: 0; margin: 0;
-            }
-            .banner { top: 16px; } /* Adjust banner down slightly */
-
-            /* 3. Resizer (Drag Handle) */
-            #mobile-resizer {
-                display: flex; order: 3;
-                height: var(--resizer-height); width: 100%;
-                background: var(--md-sys-color-surface);
-                align-items: center; justify-content: center;
-                cursor: row-resize; z-index: 50; touch-action: none;
-                border-radius: 16px 16px 0 0; margin-top: -12px;
-                box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
-            }
+            .header-section { order: 1; width: 100%; height: 56px; border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 100; padding: 0 16px; }
+            
+            #map-container { order: 2; width: 100%; height: 40%; flex: none; border-radius: 0; margin: 0; }
+            .banner { top: 16px; }
+            
+            #mobile-resizer { display: flex; order: 3; height: var(--resizer-height); width: 100%; background: var(--md-sys-color-surface); align-items: center; justify-content: center; cursor: row-resize; z-index: 50; touch-action: none; border-radius: 16px 16px 0 0; margin-top: -12px; box-shadow: 0 -2px 4px rgba(0,0,0,0.05); }
             .resizer-pill { width: 40px; height: 4px; background: #E0E0E0; border-radius: 2px; }
-
-            /* 4. Content (Bottom) */
-            #sidebar-content {
-                order: 4;
-                width: 100%;
-                flex: 1; min-height: 0;
-                padding: 0 16px 16px 16px;
-                overflow-y: auto; /* Allow full sidebar scroll */
-            }
-
-            /* Mobile styling tweaks */
+            
+            #sidebar-content { order: 4; width: 100%; flex: 1; min-height: 0; padding: 0 16px 16px 16px; overflow-y: auto; }
             .m3-card { box-shadow: none; border: none; padding: 0; background: transparent; }
             .monitor-panel { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px; margin-bottom: 0; min-height: auto; }
             .list-panel { overflow: visible; }
@@ -240,10 +145,7 @@
 <body>
 
     <div id="app-layout">
-        
-        <!-- LEFT COLUMN (Wrapper) -->
         <div id="left-col-wrapper">
-            <!-- Header (Order 1 on Mobile) -->
             <div class="header-section">
                 <div class="app-branding">
                     <div class="app-title">ExpTech DPIP Lite</div>
@@ -259,9 +161,7 @@
                 </div>
             </div>
 
-            <!-- Content (Order 4 on Mobile) -->
             <div id="sidebar-content">
-                <!-- Monitor Panel -->
                 <div class="m3-card monitor-panel">
                     <div class="panel-header">
                         <span id="monitor-title">即時監測</span>
@@ -303,7 +203,6 @@
                     </div>
                 </div>
 
-                <!-- History List -->
                 <div class="m3-card list-panel">
                     <div class="list-header">歷史地震</div>
                     <div id="quake-list">
@@ -313,12 +212,10 @@
             </div>
         </div>
 
-        <!-- RESIZER (Mobile Order 3) -->
         <div id="mobile-resizer">
             <div class="resizer-pill"></div>
         </div>
 
-        <!-- MAP (Desktop Right, Mobile Order 2) -->
         <div id="map-container">
             <div id="eew-banner" class="banner">
                 <span class="material-symbols-rounded">warning</span>
@@ -330,7 +227,6 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // --- Mobile Resizer Logic ---
         const mapContainer = document.getElementById('map-container');
         const resizer = document.getElementById('mobile-resizer');
         let isResizing = false;
@@ -344,14 +240,14 @@
             if (!isResizing) return;
             e.preventDefault();
             const touchY = e.touches[0].clientY;
-            // Subtract header height (approx 56px) for calculation
             const headerOffset = 56; 
             const totalHeight = window.innerHeight - headerOffset;
             const relativeY = touchY - headerOffset;
 
+            // Updated constraints: allow 0% to close completely
             let newHeightPerc = (relativeY / totalHeight) * 100;
-            if (newHeightPerc < 20) newHeightPerc = 20;
-            if (newHeightPerc > 70) newHeightPerc = 70;
+            if (newHeightPerc < 0) newHeightPerc = 0;
+            if (newHeightPerc > 80) newHeightPerc = 80;
 
             mapContainer.style.height = `${newHeightPerc}%`;
             if(map) map.invalidateSize();
@@ -362,7 +258,6 @@
             document.body.style.cursor = 'default';
         });
 
-        // --- ExpTech Logic ---
         const Calc = {
             getDistance: (lat1, lon1, lat2, lon2) => {
                 const R = 6371e3; const φ1 = lat1 * Math.PI/180; const φ2 = lat2 * Math.PI/180;
@@ -449,7 +344,12 @@
         function toggleLayer(name) {
             const layer = layers[name];
             if (!layer) return;
-            if (map.hasLayer(layer)) map.removeLayer(layer); else map.addLayer(layer);
+            // Manual state management when clicked by user
+            if (map.hasLayer(layer)) {
+                map.removeLayer(layer);
+            } else {
+                map.addLayer(layer);
+            }
         }
 
         function getUserLocation() {
@@ -528,8 +428,15 @@
             document.getElementById('monitor-title').innerText = "情境模擬";
             setMonitorState(true);
             
-            savedLayerState.rts = map.hasLayer(layers.rts);
+            // --- RTS LOCK LOGIC ---
+            // 1. Save current state
+            const rtsCheckbox = document.getElementById('switch-rts');
+            savedLayerState.rts = rtsCheckbox.checked;
+            
+            // 2. Force OFF and Disabled
             if(savedLayerState.rts) map.removeLayer(layers.rts);
+            rtsCheckbox.checked = false;
+            rtsCheckbox.disabled = true;
 
             const detail = await fetchJson(Routes.reportDetail(id), false);
             if(detail.error) { stopSimulation(); return; }
@@ -576,7 +483,9 @@
                                 if (parseFloat(int.replace('+', '.5').replace('-', '.5')) >= 1) {
                                     const icon = L.divIcon({ className: 'int-map-marker', html: int, iconSize: [24, 24], iconAnchor: [12, 12] });
                                     icon.options.className += ` int-${int}`;
-                                    L.marker([tData.lat, tData.lon], { icon: icon, pane: 'stationPane', interactive:false }).addTo(layers.activeReport);
+                                    // Z-Index for Int markers
+                                    const zOff = parseInt(int.replace('+','').replace('-','')) * 1000;
+                                    L.marker([tData.lat, tData.lon], { icon: icon, pane: 'stationPane', interactive:false, zIndexOffset: zOff }).addTo(layers.activeReport);
                                 }
                             }
                         }
@@ -596,19 +505,15 @@
                 
                 if (simSeconds > maxDurationSec) { stopSimulation(); return; }
                 
-                // Update Circles
                 if(pCircle) pCircle.setRadius(pSpeed * simSeconds);
                 if(sCircle) sCircle.setRadius(sSpeed * simSeconds);
 
-                // --- SYNCED TIME UPDATE LOGIC ---
-                // We use Math.floor() so both clock and offset flip at exactly the same integer boundary
                 const displaySeconds = Math.floor(simSeconds);
                 const simDate = new Date(simStartTime + (displaySeconds * 1000));
                 
                 document.getElementById('clock-time').innerText = simDate.toLocaleTimeString('zh-TW', {hour12:false});
                 document.getElementById('clock-offset').innerText = `(+${displaySeconds}s)`;
                 
-                // Update S-Wave Info
                 if(lat && lon) {
                     const el = document.getElementById('s-wave-countdown');
                     const unit = document.getElementById('s-wave-unit');
@@ -647,6 +552,11 @@
             document.querySelectorAll('.quake-item').forEach(el => el.classList.remove('active'));
             layers.activeReport.clearLayers();
             if(waveTimer) clearInterval(waveTimer);
+
+            // --- RTS UNLOCK LOGIC ---
+            const rtsCheckbox = document.getElementById('switch-rts');
+            rtsCheckbox.disabled = false;
+            rtsCheckbox.checked = savedLayerState.rts;
             if(savedLayerState.rts) map.addLayer(layers.rts);
         }
 
@@ -655,25 +565,33 @@
             const data = await fetchJson(`${Routes.rts}?_t=${Date.now()}`, false);
             if (!data || data.error) return;
             layers.rts.clearLayers();
-            let maxPga = 0;
             
+            // Prepare array for sorting
+            let stations = [];
             for (const [id, valObj] of Object.entries(data.station || {})) {
-                const pga = valObj.pga;
-                if (pga < 0.8) continue;
-                if (pga > 0) {
-                    if (pga > maxPga) maxPga = pga;
-                    const st = stationsCache ? stationsCache[id] : null;
-                    let lat, lon;
-                    if (st) { if (st.lat) { lat = st.lat; lon = st.lon; } else if (st.info && st.info[0]) { lat = st.info[0].lat; lon = st.info[0].lon; } }
-                    if (lat && lon) {
-                        const intStr = Calc.pgaToIntensity(pga);
-                        const color = getIntColor(intStr);
-                        L.circleMarker([lat, lon], { radius: 5 + (Math.log(pga) * 1.5), color: '#666', weight:0.5, fillColor: color, fillOpacity: 0.8, pane: 'rtsPane' }).bindPopup(`${st ? st.name : id}<br>${pga} gal`).addTo(layers.rts);
-                        if(pga >= 2.5) {
-                            const icon = L.divIcon({ className: 'int-map-marker', html: intStr, iconSize: [24, 24], iconAnchor:[12,12] });
-                            icon.options.className += ` int-${intStr}`;
-                            L.marker([lat, lon], { icon: icon, pane: 'rtsPane', interactive: false }).addTo(layers.rts);
-                        }
+                if (valObj.pga >= 0.8) {
+                    stations.push({ id, ...valObj });
+                }
+            }
+            // SORT ASC (Low -> High) so High draws last (on top)
+            stations.sort((a, b) => a.pga - b.pga);
+
+            for (const stData of stations) {
+                const pga = stData.pga;
+                const st = stationsCache ? stationsCache[stData.id] : null;
+                let lat, lon;
+                if (st) { if (st.lat) { lat = st.lat; lon = st.lon; } else if (st.info && st.info[0]) { lat = st.info[0].lat; lon = st.info[0].lon; } }
+                
+                if (lat && lon) {
+                    const intStr = Calc.pgaToIntensity(pga);
+                    const color = getIntColor(intStr);
+                    L.circleMarker([lat, lon], { radius: 5 + (Math.log(pga) * 1.5), color: '#666', weight:0.5, fillColor: color, fillOpacity: 0.8, pane: 'rtsPane' }).bindPopup(`${st ? st.name : stData.id}<br>${pga} gal`).addTo(layers.rts);
+                    if(pga >= 2.5) {
+                        const icon = L.divIcon({ className: 'int-map-marker', html: intStr, iconSize: [24, 24], iconAnchor:[12,12] });
+                        icon.options.className += ` int-${intStr}`;
+                        // Z-Index for RTS markers
+                        const zOff = parseInt(pga * 100); 
+                        L.marker([lat, lon], { icon: icon, pane: 'rtsPane', interactive: false, zIndexOffset: zOff }).addTo(layers.rts);
                     }
                 }
             }
