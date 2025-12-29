@@ -62,14 +62,40 @@
 
         /* COMPONENTS */
         .m3-card { background: var(--md-sys-color-surface-container); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-2); display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; }
-        .monitor-panel { min-height: 160px; justify-content: center; flex-shrink: 0; }
+        
+        /* 修正：監測面板固定高度與佈局 */
+        .monitor-panel { 
+            min-height: 230px; /* 固定最小高度，確保無地震時高度一致 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-shrink: 0; 
+        }
+
         .panel-header { font-size: 0.85rem; font-weight: 700; color: var(--md-sys-color-primary); text-transform: uppercase; letter-spacing: 0.5px; }
         
-        #monitor-idle { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 8px; color: var(--md-sys-color-outline); padding: 20px 0; }
+        /* 修正：讓 idle 狀態填滿空間並置中 */
+        #monitor-idle { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            color: var(--md-sys-color-outline); 
+            flex: 1; /* 填滿剩餘空間 */
+        }
         #monitor-idle span.material-symbols-rounded { font-size: 48px; opacity: 0.5; }
         #monitor-idle div { font-weight: 500; font-size: 1rem; }
 
-        #monitor-active { display: none; flex-direction: column; gap: 12px; height: 100%; }
+        /* 修正：讓 active 狀態填滿空間 */
+        #monitor-active { 
+            display: none; 
+            flex-direction: column; 
+            gap: 12px; 
+            flex: 1; /* 填滿剩餘空間 */
+            justify-content: center;
+        }
+
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .stat-card { background: var(--md-sys-color-surface-container-high); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.05); }
         .stat-label { font-size: 0.75rem; color: var(--md-sys-color-on-surface-variant); font-weight: 600; margin-bottom: 4px; }
@@ -81,14 +107,15 @@
         .list-header { padding: 16px; border-bottom: 1px solid rgba(0,0,0,0.08); font-weight: 700; color: var(--md-sys-color-outline); font-size: 0.8rem; text-transform: uppercase; background: var(--md-sys-color-surface-container); flex-shrink: 0; }
         #quake-list { flex: 1; overflow-y: auto; }
         
-        .quake-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .quake-item.active { background: #E1F5FE; border-left: 4px solid var(--md-sys-color-primary); padding-left: 12px; }
+        .quake-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.05); transition: background-color 0.2s; }
+        /* 修正：Active 樣式更明顯 */
+        .quake-item.active { background: #d0ebff; border-left: 4px solid var(--md-sys-color-primary); padding-left: 12px; }
         .mag-badge { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1rem; color: #1f1f1f; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
         .quake-info h4 { margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--md-sys-color-on-surface); line-height: 1.4; }
         .quake-info p { margin: 0; font-size: 0.8rem; color: var(--md-sys-color-on-surface-variant); }
 
         /* Toggle & Switch */
-        .layer-control { padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .layer-control { padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .layer-label { font-size: 0.9rem; display: flex; align-items: center; gap: 8px; color: var(--md-sys-color-on-surface); font-weight: 500; }
         
         .m3-switch { position: relative; width: 40px; height: 20px; }
@@ -135,7 +162,7 @@
             
             #sidebar-content { order: 4; width: 100%; flex: 1; min-height: 0; padding: 0 16px 16px 16px; overflow-y: auto; }
             .m3-card { box-shadow: none; border: none; padding: 0; background: transparent; }
-            .monitor-panel { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px; margin-bottom: 0; min-height: auto; }
+            .monitor-panel { border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px; margin-bottom: 0; } /* 手機版也可保持固定高度 */
             .list-panel { overflow: visible; }
             #quake-list { overflow: visible; }
             .list-header { display: none; }
@@ -231,7 +258,6 @@
         const resizer = document.getElementById('mobile-resizer');
         let isResizing = false;
         
-        // FLAG: Tracks if the user is currently panning or zooming
         let isMapInteracting = false;
 
         resizer.addEventListener('touchstart', (e) => {
@@ -282,7 +308,6 @@
 
         const CONFIG = {
             center: [23.8, 121], zoom: 7, 
-            // 預設位置為台北 101
             userLoc: { lat: 25.0336, lon: 121.5644, name: "預設: 台北101" },
             reportLimit: 100 
         };
@@ -303,7 +328,7 @@
         let savedLayerState = { rts: true }; 
         let isRtsEnabled = true;
         let LOCATION_DATA = null;
-        let rtsMarkerCache = {}; // Cache for persistent RTS markers
+        let rtsMarkerCache = {}; 
         
         async function fetchJson(url, useProxy = true) {
             if (!useProxy) { try { const res = await fetch(url); if (res.ok) return await res.json(); } catch(e) {} }
@@ -320,8 +345,6 @@
             
             startNormalClock();
             updateUserMarker();
-            
-            // 啟動自動定位
             startAutoLocation();
             
             await loadLocationData();
@@ -342,7 +365,6 @@
         }
 
         function initMap() {
-            // preferCanvas: true is crucial for circleMarker performance
             map = L.map('map', { 
                 zoomControl: false, 
                 attributionControl: false, 
@@ -354,14 +376,12 @@
                 attribution: '&copy; OpenStreetMap'
             }).addTo(map);
             
-            // Custom Panes setup
             map.createPane('reportPane'); map.getPane('reportPane').style.zIndex = 400; 
             map.createPane('stationPane'); map.getPane('stationPane').style.zIndex = 650; 
             map.createPane('rtsPane'); map.getPane('rtsPane').style.zIndex = 700; 
             map.createPane('labelPane'); map.getPane('labelPane').style.zIndex = 750; 
             map.createPane('userPane'); map.getPane('userPane').style.zIndex = 800;
             
-            // Fix: Force Popup pane to be higher than custom panes
             map.getPane('popupPane').style.zIndex = 2000;
             map.getPane('tooltipPane').style.zIndex = 2100;
 
@@ -401,8 +421,6 @@
                 if(isRtsEnabled) {
                     map.addLayer(layers.rts_dots);
                     map.addLayer(layers.rts_labels);
-                    
-                    // Reset cache to force redraw
                     rtsMarkerCache = {};
                     layers.rts_dots.clearLayers();
                     layers.rts_labels.clearLayers();
@@ -414,16 +432,14 @@
             }
         }
 
-        // 自動定位函式 (修正版：不中斷模擬)
         function startAutoLocation() {
             if (!navigator.geolocation) return;
-            // watchPosition 會持續監聽位置
             navigator.geolocation.watchPosition(
                 (pos) => {
                     CONFIG.userLoc.lat = pos.coords.latitude;
                     CONFIG.userLoc.lon = pos.coords.longitude;
                     CONFIG.userLoc.name = "您的位置";
-                    updateUserMarker(); // 只更新地圖上的藍點，不重啟模擬
+                    updateUserMarker(); 
                 },
                 (err) => { 
                     console.log("定位獲取中或權限未允許: " + err.message);
@@ -432,7 +448,6 @@
             );
         }
 
-        // 手動定位函式 (修正版：不中斷模擬)
         function getUserLocation() {
             if (!navigator.geolocation) { alert("瀏覽器不支援定位"); return; }
             navigator.geolocation.getCurrentPosition(
@@ -478,11 +493,17 @@
             });
         }
 
+        // 修改後的 renderActiveReport，解決顏色顯示問題
         async function renderActiveReport(id, domItem) {
             if (activeReportId === id) { stopSimulation(); return; }
-            document.querySelectorAll('.quake-item').forEach(el => el.classList.remove('active'));
-            if(domItem) domItem.classList.add('active');
+            
+            // 1. 先停止並清除當前狀態（包含所有的 .active 樣式）
             stopSimulation(); 
+            
+            // 2. 重新加上目前點擊項目的樣式
+            if(domItem) domItem.classList.add('active');
+            
+            // 3. 開始模擬
             startSimulation(id);
         }
 
@@ -633,7 +654,9 @@
             document.getElementById('clock-offset').innerText = ""; 
             document.getElementById('clock-time').textContent = new Date().toLocaleTimeString('zh-TW', {hour12:false}); 
             
+            // 清除所有的 active 樣式
             document.querySelectorAll('.quake-item').forEach(el => el.classList.remove('active'));
+            
             layers.activeReport.clearLayers();
             layers.report_dots.clearLayers();
             layers.report_labels.clearLayers();
@@ -648,7 +671,6 @@
             if(isRtsEnabled) {
                 map.addLayer(layers.rts_dots);
                 map.addLayer(layers.rts_labels);
-                // Clear cache on stop to ensure clean state
                 rtsMarkerCache = {};
                 layers.rts_dots.clearLayers();
                 layers.rts_labels.clearLayers();
@@ -690,7 +712,6 @@
                     const color = getIntColor(intStr);
                     const radius = 5 + (Math.log(pga) * 1.5);
                     
-                    // Name Resolution
                     let displayName = id;
                     let code = null;
                     if (st && st.info && st.info.length > 0) code = st.info[st.info.length - 1].code;
@@ -703,7 +724,6 @@
                     const popupContent = `${displayName}<br>${pga} gal`;
 
                     if (rtsMarkerCache[id]) {
-                        // UPDATE Existing
                         const cached = rtsMarkerCache[id];
                         cached.dot.setLatLng([lat, lon]); 
                         cached.dot.setRadius(radius);
@@ -741,7 +761,6 @@
                         }
 
                     } else {
-                        // CREATE New
                         const dotMarker = L.circleMarker([lat, lon], { 
                             radius: radius, 
                             color: '#666', weight: 0.5, 
@@ -764,7 +783,6 @@
                 }
             }
 
-            // Remove vanished stations
             for (const cacheId in rtsMarkerCache) {
                 if (!currentRoundIds.has(cacheId)) {
                     const cached = rtsMarkerCache[cacheId];
@@ -782,10 +800,7 @@
             const bannerText = document.getElementById('banner-text');
             
             if (Array.isArray(data)) {
-                // FIXED: 'author' from JSON key
                 const cwa = data.find(e => e.author === 'cwa');
-                
-                // FIXED: 'eq' nested object
                 if (cwa && cwa.eq) {
                     const info = cwa.eq;
                     banner.style.display = 'flex';
