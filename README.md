@@ -44,22 +44,18 @@
 5.  **查看詳情**：左側面板（Monitor Panel）會即時顯示目前的監測狀態（閒置/警報）或模擬中的數值。
 6.  **圖層設定**：可透過面板上的開關切換「即時震動 (RTS)」圖層的顯示與隱藏。
 
-## 備註與部署說明
+## 備註
 
-1.  **純靜態網頁**：本專案為單一 HTML 檔案，可直接部署於 GitHub Pages、Vercel 或任何靜態空間，無需架設資料庫或 Node.js 後端。
-2.  **定位精準度**：預設位置設為台北 101。若開啟定位，將使用裝置 GPS，室內可能會有些許誤差。
-3.  請遵守 ExpTech API 的使用規範，避免過度頻繁請求。
+1.  **定位精準度**：預設位置設為台北 101。若開啟定位，將使用裝置 GPS，室內可能會有些許誤差。
 
 ## 資料來源
 
 -   [ExpTech API](https://exptech.dev/) (提供地震報告、速報與測站資料)
 -   [Central Weather Administration (CWA)](https://www.cwa.gov.tw/) (原始地震資料來源)
--   [OpenStreetMap](https://www.openstreetmap.org/) (地圖圖資)
-
 ## 版權與聲明
 
 本專案為開源學習用途，皆可自由共享與修改，但**不可用於盈利目的**。
-本工具不屬於 ExpTech 團隊或中央氣象署之官方應用程式，所有數據僅供參考。
+本工具不屬於 [ExpTech 團隊](https://exptech.dev/) 或[中央氣象署](https://www.cwa.gov.tw/)之官方應用程式，所有數據僅供參考。
 
 ## 已知錯誤
 
@@ -69,3 +65,7 @@
 ## 貢獻
 
 歡迎對本專案感興趣的開發者一起參與貢獻！您可以透過 GitHub 提交 Pull Request 來改善程式碼、優化模擬演算法或修復錯誤。
+
+## 貢獻者
+
+*   [AndrewCho0531](https://github.com/AndrewCho0531)：邏輯編寫、UI設計、錯誤修正
